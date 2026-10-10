@@ -1,0 +1,9 @@
+# Direct package versions from the verified environment; not a full transitive lock.
+numpy==2.3.5
+scipy==1.17.0
+scikit-image==0.26.0
+pandas==2.2.3
+matplotlib==3.10.8
+Pillow==12.3.0
+streamlit==1.65.0
+pytest==9.1.1

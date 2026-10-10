@@ -1,0 +1,14 @@
+{
+  "connected": {
+    "sigma": 1.0,
+    "min_area": 40,
+    "min_distance": 6,
+    "threshold_factor": 1.0
+  },
+  "watershed": {
+    "sigma": 1.0,
+    "min_area": 40,
+    "min_distance": 10,
+    "threshold_factor": 0.7
+  }
+}

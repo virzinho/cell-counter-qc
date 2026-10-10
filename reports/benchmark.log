@@ -1,0 +1,75 @@
+Validation connected {'sigma': 1.0, 'min_area': 40, 'min_distance': 6, 'threshold_factor': 0.7} F1=0.751
+Validation connected {'sigma': 1.0, 'min_area': 40, 'min_distance': 6, 'threshold_factor': 1.0} F1=0.769
+Validation connected {'sigma': 1.0, 'min_area': 80, 'min_distance': 6, 'threshold_factor': 0.7} F1=0.748
+Validation connected {'sigma': 1.0, 'min_area': 80, 'min_distance': 6, 'threshold_factor': 1.0} F1=0.767
+Validation watershed {'sigma': 1.0, 'min_area': 40, 'min_distance': 6, 'threshold_factor': 0.7} F1=0.831
+Validation watershed {'sigma': 1.0, 'min_area': 40, 'min_distance': 6, 'threshold_factor': 1.0} F1=0.797
+Validation watershed {'sigma': 1.0, 'min_area': 40, 'min_distance': 10, 'threshold_factor': 0.7} F1=0.871
+Validation watershed {'sigma': 1.0, 'min_area': 40, 'min_distance': 10, 'threshold_factor': 1.0} F1=0.852
+Validation watershed {'sigma': 1.0, 'min_area': 80, 'min_distance': 6, 'threshold_factor': 0.7} F1=0.829
+Validation watershed {'sigma': 1.0, 'min_area': 80, 'min_distance': 6, 'threshold_factor': 1.0} F1=0.797
+Validation watershed {'sigma': 1.0, 'min_area': 80, 'min_distance': 10, 'threshold_factor': 0.7} F1=0.868
+Validation watershed {'sigma': 1.0, 'min_area': 80, 'min_distance': 10, 'threshold_factor': 1.0} F1=0.851
+Test 1/50
+Test 2/50
+Test 3/50
+Test 4/50
+Test 5/50
+Test 6/50
+Test 7/50
+Test 8/50
+Test 9/50
+Test 10/50
+Test 11/50
+Test 12/50
+Test 13/50
+Test 14/50
+Test 15/50
+Test 16/50
+Test 17/50
+Test 18/50
+Test 19/50
+Test 20/50
+Test 21/50
+Test 22/50
+Test 23/50
+Test 24/50
+Test 25/50
+Test 26/50
+Test 27/50
+Test 28/50
+Test 29/50
+Test 30/50
+Test 31/50
+Test 32/50
+Test 33/50
+Test 34/50
+Test 35/50
+Test 36/50
+Test 37/50
+Test 38/50
+Test 39/50
+Test 40/50
+Test 41/50
+Test 42/50
+Test 43/50
+Test 44/50
+Test 45/50
+Test 46/50
+Test 47/50
+Test 48/50
+Test 49/50
+Test 50/50
+   method       condition  absolute_count_error  instance_f1
+connected blur2_noise0.08                 28.92     0.760619
+connected    blur_sigma_2                 28.62     0.766024
+connected    blur_sigma_4                 35.26     0.692964
+connected brightness_x0.4                 24.94     0.803562
+connected  noise_std_0.08                 25.04     0.797963
+connected        original                 24.94     0.803562
+watershed blur2_noise0.08                 12.88     0.873063
+watershed    blur_sigma_2                 12.26     0.876077
+watershed    blur_sigma_4                 17.16     0.830318
+watershed brightness_x0.4                  9.60     0.895611
+watershed  noise_std_0.08                  9.72     0.894478
+watershed        original                  9.60     0.895611

@@ -1,0 +1,19 @@
+{
+  "dataset": "BBBC039v1",
+  "split_sizes": {
+    "training": 100,
+    "validation": 50,
+    "test": 50
+  },
+  "parameter_selection": "Maximum mean validation instance F1, tie broken by count MAE",
+  "seed": 42,
+  "bootstrap_resamples": 2000,
+  "python": "3.12.14",
+  "packages": {
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "scikit-image": "0.26.0",
+    "pandas": "2.2.3",
+    "matplotlib": "3.10.8"
+  }
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "file": "validation_01.tif",
+    "source_filename": "IXMtest_A02_s1_w1051DAA7C-7042-435F-99F0-1E847D9B42CB.png",
+    "split": "validation",
+    "reference_count": 110,
+    "source": "https://bbbc.broadinstitute.org/BBBC039",
+    "license": "CC0"
+  },
+  {
+    "file": "validation_02.tif",
+    "source_filename": "IXMtest_B04_s4_w1F6AEFA0F-AF87-4B3B-A334-698647CFE043.png",
+    "split": "validation",
+    "reference_count": 104,
+    "source": "https://bbbc.broadinstitute.org/BBBC039",
+    "license": "CC0"
+  },
+  {
+    "file": "validation_03.tif",
+    "source_filename": "IXMtest_B12_s2_w19F7E0279-D087-4B5E-9899-61971C29CB78.png",
+    "split": "validation",
+    "reference_count": 120,
+    "source": "https://bbbc.broadinstitute.org/BBBC039",
+    "license": "CC0"
+  }
+]
