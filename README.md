@@ -1,5 +1,7 @@
 # Nuclei Lab · Cell Counter & Quality Check
 
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/virzinho/cell-counter-qc/blob/main/notebooks/walkthrough.ipynb)
+
 **How much does nucleus counting degrade when microscopy images get blurry?**
 
 An end-to-end bioimage analysis portfolio project: segment fluorescent nuclei, measure their morphology, compare two interpretable computer vision baselines, and stress-test them on held-out annotated images. Includes a Streamlit demo, command-line exports, automated tests and reproducible experiment outputs.
@@ -28,6 +30,10 @@ Brightness scaling is intentionally a control: percentile normalization cancels 
 
 ## Try the demo
 
+**Google Colab (no local installation):** click **Open in Colab** above, then **Runtime → Run all**. The first cell downloads the repository and installs the core dependencies. The notebook displays images, nucleus boundaries, measurements and quality experiments inline. It runs on a CPU runtime and does not require Drive access, a GPU or the full dataset download. Optional image upload and full benchmark execution are off by default.
+
+**Local Streamlit app:** use the commands below. The web app runs locally; the Colab notebook provides the analysis directly inside the notebook instead.
+
 Python 3.11+; the recorded run used Python 3.12. Tested package versions are in `reports/run_metadata.json` and `requirements-lock.txt`.
 
 ```bash
@@ -35,7 +41,7 @@ python -m venv .venv
 # macOS / Linux
 source .venv/bin/activate
 # Windows PowerShell: .venv\Scripts\Activate.ps1
-python -m pip install -e '.[dev]'
+python -m pip install -e '.[demo,dev]'
 python -m streamlit run app.py
 ```
 
