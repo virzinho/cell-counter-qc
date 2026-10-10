@@ -15,11 +15,13 @@ class Config:
     threshold_factor: float = 0.8
 
     def __post_init__(self):
+        if not all(np.isfinite(v) for v in (self.sigma, self.min_area, self.min_distance, self.threshold_factor)):
+            raise ValueError("Segmentation parameters must be finite")
         if self.sigma < 0 or self.min_area < 1 or self.min_distance < 1 or self.threshold_factor <= 0:
             raise ValueError("Invalid segmentation parameters")
 
 
-def normalize(image):
+def normalize(image: np.ndarray) -> np.ndarray:
     """Convert a single 2D image to grayscale and robustly scale to [0, 1]."""
     x = np.asarray(image)
     if x.ndim == 3 and x.shape[-1] in (3, 4):
@@ -37,7 +39,7 @@ def normalize(image):
     return np.clip((x - low) / (high - low), 0, 1)
 
 
-def segment(image, method="watershed", config=Config()):
+def segment(image: np.ndarray, method: str = "watershed", config: Config = Config()) -> np.ndarray:
     if method not in ("connected", "watershed"):
         raise ValueError("Method must be connected or watershed")
     x = normalize(image)
@@ -71,18 +73,18 @@ def segment(image, method="watershed", config=Config()):
     return segmentation.relabel_sequential(labels)[0].astype(np.int32)
 
 
-def measure(labels):
+def measure(labels: np.ndarray) -> pd.DataFrame:
     columns = ["label", "area_px2", "centroid_y_px", "centroid_x_px", "equivalent_diameter_px", "eccentricity", "solidity"]
     rows = [[r.label, r.area, *r.centroid, r.equivalent_diameter_area, r.eccentricity, r.solidity]
             for r in skmeasure.regionprops(labels)]
     return pd.DataFrame(rows, columns=columns)
 
 
-def overlay(image, labels):
+def overlay(image: np.ndarray, labels: np.ndarray) -> np.ndarray:
     return segmentation.mark_boundaries(normalize(image), labels, color=(0.2, 1.0, 0.7), mode="outer")
 
 
-def quality(image):
+def quality(image: np.ndarray) -> dict[str, float]:
     """Descriptive indicators, not probabilities or calibrated pass/fail rules."""
     x = normalize(image)
     return {"focus_laplacian_variance": float(ndi.laplace(x).var()),

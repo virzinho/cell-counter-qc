@@ -3,6 +3,7 @@ import argparse
 from dataclasses import asdict
 import hashlib
 import json
+import logging
 from pathlib import Path
 import platform
 import sys
@@ -40,12 +41,15 @@ def bootstrap_mean(values, seed=42):
     return float(v.mean()), float(np.quantile(samples, .025)), float(np.quantile(samples, .975))
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--data", type=Path, default=ROOT / "data/bbbc039")
     args = parser.parse_args()
     out = ROOT / "reports"
     out.mkdir(exist_ok=True)
+    handler = logging.FileHandler(out / "benchmark.log")
+    handler.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(message)s"))
+    logging.getLogger().addHandler(handler)
     names = {s: split_names(args.data, s) for s in ["training", "validation", "test"]}
     for s, t in [("training", "validation"), ("training", "test"), ("validation", "test")]:
         assert not set(names[s]) & set(names[t]), "Overlapping splits"
@@ -65,7 +69,7 @@ def main():
             tuning.append({"method": method, **asdict(config), "validation_f1": f1, "validation_count_mae": mae})
             if best is None or (f1, -mae) > best[0]:
                 best = ((f1, -mae), config)
-            print(f"Validation {method} {asdict(config)} F1={f1:.3f}", flush=True)
+            logging.info("Validation %s %s F1=%.3f", method, asdict(config), f1)
         selected[method] = best[1]
     pd.DataFrame(tuning).to_csv(out / "validation_search.csv", index=False)
     (out / "selected_config.json").write_text(json.dumps({m: asdict(c) for m, c in selected.items()}, indent=2) + "\n")
@@ -79,7 +83,7 @@ def main():
                 elapsed = time.perf_counter() - start
                 rows.append({"image": name, "condition": condition, "method": method,
                              **evaluate(truth, prediction), **quality(x), "seconds": elapsed})
-        print(f"Test {i + 1}/{len(names['test'])}", flush=True)
+        logging.info("Test %s/%s", i + 1, len(names["test"]))
     df = pd.DataFrame(rows)
     df.to_csv(out / "per_image_results.csv", index=False)
     summary = []
@@ -141,8 +145,9 @@ def main():
     fig.suptitle("Failure analysis · worst, median and best test F1", fontsize=14)
     fig.savefig(out / "failure_analysis.png", dpi=140)
     plt.close(fig)
-    print(summary[["method", "condition", "absolute_count_error", "instance_f1"]].to_string(index=False))
+    logging.info("Summary\n%s", summary[["method", "condition", "absolute_count_error", "instance_f1"]].to_string(index=False))
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
     main()

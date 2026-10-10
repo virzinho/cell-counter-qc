@@ -28,6 +28,25 @@ Brightness scaling is intentionally a control: percentile normalization cancels 
 
 ![Image-quality stress test](reports/robustness.png)
 
+## Configurable execution and neural comparison
+
+The original classical benchmark now has a separate engineering entry point. `BaseSegmenter` defines preprocessing, segmentation and evaluation; `WatershedSegmenter` and the optional pretrained StarDist `DeepLearningSegmenter` implement this interface. Existing Python functions and the Colab walkthrough remain available.
+
+```bash
+# Classical pipeline, default paths resolved relative to config.yaml
+python main.py --config config.yaml --model classical --degradation blur --sigma 2.0
+
+# Optional pretrained neural comparison on CPU
+python -m pip install -e '.[neural]'
+python main.py --config config.yaml --model both --output outputs/comparison
+```
+
+CLI overrides YAML values. For noise, `--sigma` is the standard deviation in normalized intensity units; for blur, it is measured in pixels. Supply `--truth path/to/bbbc039_mask.png` to include instance Precision, Recall, F1 and foreground Dice. Without annotations, the report contains counts and resources only, never fabricated accuracy.
+
+Outputs include model-specific label TIFFs, overlays and measurement CSVs, plus `comparison.csv`, 300-dpi `comparison.png`, `comparison.pdf`, `pipeline.log`, the effective configuration and environment metadata. Models execute in separate CPU processes. Reports distinguish initialization, cold inference, warm median inference and whole-process peak RAM. See [the executed single-image comparison](reports/engineering/README.md) for measured results and resource definitions.
+
+This engineering check does **not** replace the 50-image classical benchmark or establish a neural robustness curve. A dataset-wide comparison, more perturbation levels and an audit of pretrained training-data overlap remain necessary before making general claims. Structured code alone does not establish production readiness.
+
 ## Try the demo
 
 **Google Colab (no local installation):** click **Open in Colab** above, then **Runtime → Run all**. The first cell downloads the repository and installs the core dependencies. The notebook displays images, nucleus boundaries, measurements and quality experiments inline. It runs on a CPU runtime and does not require Drive access, a GPU or the full dataset download. Optional image upload and full benchmark execution are off by default.
@@ -63,7 +82,7 @@ For command-line segmentation:
 cell-counter examples/validation_01.tif --output outputs --min-area 40 --min-distance 10 --threshold-factor 0.7
 ```
 
-The parameter values above reproduce the selected watershed configuration. Results are `measurements.csv`, `labels.tif` and `overlay.png`. Areas are in px² and lengths in pixels; physical measurements require pixel-size calibration.
+The parameter values above reproduce the selected watershed configuration. Model outputs under `outputs/classical/` are `measurements.csv`, `labels.tif` and `overlay.png`. Areas are in px² and lengths in pixels; physical measurements require pixel-size calibration.
 
 ## Why two methods?
 
@@ -94,11 +113,13 @@ The figure below shows the worst, median and best original test images by waters
 
 ## Scope and limitations
 
-This is a **classical computer vision research prototype**, not a trained neural network, whole-cell counter or diagnostic system. It targets bright fluorescent nuclei on dark backgrounds. Evaluation is restricted to one U2OS screen; generalization to another laboratory, cell line or imaging modality is untested. Quality metrics are descriptive and are not a calibrated reliability score. The project uses AI-assisted implementation; contributors should describe their actual involvement accurately.
+This is a **research prototype with classical baselines and optional pretrained StarDist**, not a whole-cell counter or diagnostic system. No neural model is trained in this repository. It targets bright fluorescent nuclei on dark backgrounds. Evaluation is restricted to one U2OS screen; generalization to another laboratory, cell line or imaging modality is untested. Quality metrics are descriptive and are not a calibrated reliability score. The project uses AI-assisted implementation; contributors should describe their actual involvement accurately.
 
 ## Data and references
 
 We used BBBC039v1, Caicedo et al. 2018, available from the [Broad Bioimage Benchmark Collection](https://bbbc.broadinstitute.org/BBBC039), with collection reference Ljosa et al., Nature Methods 2012. The source images and annotations are CC0. Mask decoding follows [Broad's linked reference example](https://gist.github.com/jccaicedo/15e811722fca51e3ae90e8b43057f075).
+
+Optional neural implementation follows the [official StarDist usage](https://github.com/stardist/stardist#usage).
 
 Implementation references: [scikit-image segmentation](https://scikit-image.org/docs/stable/api/skimage.segmentation.html), [region measurements](https://scikit-image.org/docs/stable/api/skimage.measure.html), and [SciPy linear assignment](https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.linear_sum_assignment.html).
 

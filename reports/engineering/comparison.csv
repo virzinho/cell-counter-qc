@@ -1,0 +1,3 @@
+peak_process_rss_mb,model,count,initialization_ms,cold_inference_ms,warm_median_ms,repeats,device,degradation,sigma,true_count,predicted_count,count_error,absolute_count_error,tp,fp,fn,precision,recall,instance_f1,foreground_dice,sampled_peak_process_rss_mb
+170.984375,classical,102,0.017124999430961907,77.26026400086994,61.665680001169676,5,cpu,none,2.0,110,102,-8,8,97,5,13,0.9509803921568627,0.8818181818181818,0.9150943396226415,0.9577309423841928,
+982.765625,neural,104,2377.9812550001225,760.7285009999032,540.8485560001282,5,cpu,none,2.0,110,104,-6,6,104,0,6,1.0,0.9454545454545454,0.9719626168224299,0.9666492201402701,

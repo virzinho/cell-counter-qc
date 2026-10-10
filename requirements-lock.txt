@@ -7,3 +7,5 @@ matplotlib==3.10.8
 Pillow==12.3.0
 streamlit==1.65.0
 pytest==9.1.1
+PyYAML==6.0.3
+psutil==7.2.2

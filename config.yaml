@@ -1,0 +1,16 @@
+# Paths resolve relative to this file. CLI flags override these defaults.
+input: examples/validation_01.tif
+output: outputs/pipeline
+model: classical
+truth: null  # Optional BBBC039 annotation image, decoded using its dataset convention.
+degradation: none
+sigma: 2.0
+seed: 42
+repeats: 5
+timeout_seconds: 600
+neural_model: 2D_versatile_fluo
+segmentation:
+  sigma: 1.0
+  min_area: 40
+  min_distance: 10
+  threshold_factor: 0.7

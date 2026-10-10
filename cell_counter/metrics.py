@@ -4,7 +4,7 @@ from scipy.optimize import linear_sum_assignment
 from skimage.segmentation import relabel_sequential
 
 
-def evaluate(truth, prediction, threshold=0.5):
+def evaluate(truth: np.ndarray, prediction: np.ndarray, threshold: float = 0.5) -> dict:
     a = relabel_sequential(np.asarray(truth, dtype=np.int64))[0]
     b = relabel_sequential(np.asarray(prediction, dtype=np.int64))[0]
     if a.shape != b.shape:
@@ -25,5 +25,7 @@ def evaluate(truth, prediction, threshold=0.5):
     denominator = int(af.sum() + bf.sum())
     return {"true_count": na, "predicted_count": nb, "count_error": nb - na,
             "absolute_count_error": abs(nb - na), "tp": tp, "fp": fp, "fn": fn,
+            "precision": tp / nb if nb else (1.0 if na == 0 else 0.0),
+            "recall": tp / na if na else 1.0,
             "instance_f1": 2 * tp / (2 * tp + fp + fn) if na + nb else 1.0,
             "foreground_dice": 2 * (af & bf).sum() / denominator if denominator else 1.0}

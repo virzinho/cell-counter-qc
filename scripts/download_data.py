@@ -1,6 +1,7 @@
 """Download and verify BBBC039 archives; preserve the official split lists."""
 import hashlib
 import json
+import logging
 from pathlib import Path
 import urllib.request
 import zipfile
@@ -8,7 +9,7 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def main():
+def main() -> None:
     raw = ROOT / "data/raw"
     destination = ROOT / "data/bbbc039"
     raw.mkdir(parents=True, exist_ok=True)
@@ -19,7 +20,7 @@ def main():
     for filename in ("images.zip", "masks.zip", "metadata.zip"):
         path = raw / filename
         if not path.exists():
-            print(f"Downloading {filename}", flush=True)
+            logging.info("Downloading %s", filename)
             temporary = path.with_suffix(".part")
             urllib.request.urlretrieve("https://data.broadinstitute.org/bbbc/BBBC039/" + filename, temporary)
             temporary.replace(path)
@@ -38,8 +39,9 @@ def main():
                 target.parent.mkdir(parents=True, exist_ok=True)
                 target.write_bytes(archive.read(member))
     (ROOT / "data/checksums.json").write_text(json.dumps(checksums, indent=2) + "\n")
-    print(f"Ready: {destination}")
+    logging.info("Ready: %s", destination)
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
     main()
